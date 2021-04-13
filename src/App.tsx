@@ -1,26 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import "./App.css";
+import Form from "./components/Form";
+import Items from "./components/Items";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	type ObjectD = {
+		data: string;
+		id: number;
+	};
+	const [data, setData] = useState<ObjectD[]>([]);
+	// const [data, setData] = useState<ObjectD[]>([{ data: "", id: 0 }]);
+
+	// const initialData: ObjectD[] = [{ data: "", id: 0 }];
+	// const [data, setData] = useState<ObjectD[]>(initialData);
+
+	const dataHandler = (
+		// e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+		obj: ObjectD
+		// obj: {}
+	) => {
+		setData(prev => [...prev, obj]);
+	};
+	// const dataHandler = () => {
+	// 	setData(prev => [...prev, obj]);
+	// };
+
+	const removeHandler = (id: number) => {
+		const newData = [...data].filter(todo => todo.id !== id);
+		setData(newData);
+	};
+
+	return (
+		<div className="App">
+			<h1>This is my ts todo</h1>
+			<Form dataHandler={dataHandler} />
+			<Items data={data} removeHandler={removeHandler} />
+		</div>
+	);
 }
 
 export default App;
